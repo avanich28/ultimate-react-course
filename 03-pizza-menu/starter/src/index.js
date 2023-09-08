@@ -258,4 +258,5 @@ root.render(
 // Topic: The Rules of JSX
 // In slide
 
-// Topic: Conditional Rendering with Multiple Returns
+// Topic: Section Summary
+// In slide
