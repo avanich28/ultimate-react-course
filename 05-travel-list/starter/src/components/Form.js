@@ -1,28 +1,7 @@
 import { useState } from "react";
 
-const initialItems = [
-  { id: 1, description: "Passports", quantity: 2, packed: true },
-  { id: 2, description: "Socks", quantity: 12, packed: true },
-  { id: 3, description: "Charger", quantity: 1, packed: false },
-];
-
-// Topic: Building the Layout
-export default function App() {
-  return (
-    <div className="app">
-      <Logo />
-      <Form />
-      <PackingList />
-      <Stats />
-    </div>
-  );
-}
-
-function Logo() {
-  return <h1>🏝 Far Away 🧳</h1>;
-}
-
-function Form() {
+// 🌈
+export default function Form({ onAddItems }) {
   // Topic: Controlled Elements
   // React controls and owns the state of these input fields and no longer the DOM.
   // 3 steps
@@ -32,6 +11,11 @@ function Form() {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
 
+  // Topic: Thinking About State and Lifting State Up
+  // const [items, setItems] = useState([]);
+  // Not re-render yet bcs PackingList component will render this items state!
+  // How to pass state to sibling component? 'Lift up state' -> Move to the closest component -> App component 🌈
+
   function handleSubmit(e) {
     e.preventDefault();
     // console.log(e);
@@ -39,7 +23,10 @@ function Form() {
     if (!description) return;
 
     const newItem = { description, quantity, packed: false, id: Date.now() };
-    console.log(newItem);
+    // console.log(newItem);
+
+    // 🌈
+    onAddItems(newItem);
 
     // Back to initial state
     setDescription("");
@@ -67,7 +54,7 @@ function Form() {
         // Need both value and onChange element
         value={description}
         onChange={(e) => {
-          console.log(e.target.value);
+          // console.log(e.target.value);
           // Input sync with state
           setDescription(e.target.value);
         }}
@@ -76,39 +63,3 @@ function Form() {
     </form>
   );
 }
-
-function PackingList() {
-  return (
-    <div className="list">
-      {/* Topic: Rendering the Items List */}
-      <ul>
-        {/* Each key must be unique */}
-        {initialItems.map((item) => (
-          <Item item={item} key={item.id} />
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function Item({ item }) {
-  return (
-    <li>
-      <span style={item.packed ? { textDecoration: "line-through" } : {}}>
-        {item.quantity} {item.description}
-      </span>
-      <button>❌</button>
-    </li>
-  );
-}
-
-function Stats() {
-  return (
-    <footer className="stats">
-      <em>💼 You have X items on your list, and you already packed X (X%)</em>
-    </footer>
-  );
-}
-
-// Topic: State vs. Props
-// In slide
