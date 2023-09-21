@@ -67,15 +67,15 @@ export default function App() {
       </NavBar>
 
       {/* Topic: Prop Drilling 🔥
-       We need to pass some prop through several nested child components in order to get that data into some deeply nested component -> hard to track -> use component composition */}
+       We need to pass some prop through several nested child components in order to get that data into some deeply nested component -> hard to track -> use component composition instead */}
       <Main>
-        {/* // Topic: Passing Elements as Props (Alternative to children) 🚀 */}
+        {/* Topic: Passing Elements as Props (Alternative to children) 🚀 */}
         {/* <Box element={<MovieList movies={movies} />}></Box>
         <Box
           element={
             // Pass elements instead of children prop
-            // Pass in a brand new piece of JSX -> So, we need a fragment
-            // In case you need to pass in multiple elements and give them separate names
+            // Pass in a brand new piece of JSX -> So, we need a fragment 
+            // -> In case you need to pass in multiple elements and give them separate names
             <>
               <WatchedSummary watched={watched} />
               <WatchedMoviesList watched={watched} />
@@ -83,7 +83,7 @@ export default function App() {
           }
         ></Box> */}
 
-        {/* Shortcut: hover el -> option -> click el */}
+        {/* 🔥 Shortcut: hover el -> option -> click el */}
         <Box>
           <MovieList movies={movies} />
         </Box>
@@ -138,7 +138,7 @@ function Search() {
 function NumResults({ movies }) {
   return (
     <p className="num-results">
-      {/* 🔥 */}
+      {/* 🔥 prop drilling */}
       Found <strong>{movies.length}</strong> results
     </p>
   );

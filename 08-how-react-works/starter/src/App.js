@@ -25,6 +25,16 @@ export default function App() {
     </div>
   );
 }
+// 🐔 Can look at a component instance simply by using the component and logging it to the console.
+// Return 'React element" {} -> use for creating DOM element
+console.log(<DifferentContent test={23} />); // Call internally
+console.log(DifferentContent()); // Don't do this bcs no longer has the type of different content.
+// Instead, it is a div which is basically just the content of that component. So, this div is now the type of this React element. -> React isn't see component instance, but see the raw React element
+
+// NOTE $$typeof: Symbol(react.element)
+// This is simply a security feature that React has implemented in order to protect us against cross-site scripting attacks.
+// Symbol is one of Javascript primitives, which can't be transmitted via JSON, or means that a symbol like this cannot come from an API call.
+// If some hacker would try to send us a fake React element from that API, then React would not see this $$typeof symbol and then not include this fake React element into the DOM.
 
 function Tabbed({ content }) {
   const [activeTab, setActiveTab] = useState(0);
@@ -35,14 +45,28 @@ function Tabbed({ content }) {
         <Tab num={0} activeTab={activeTab} onClick={setActiveTab} />
         <Tab num={1} activeTab={activeTab} onClick={setActiveTab} />
         <Tab num={2} activeTab={activeTab} onClick={setActiveTab} />
+
+        {/* Reset state -> diff rule -> same position, different element */}
         <Tab num={3} activeTab={activeTab} onClick={setActiveTab} />
       </div>
 
+      {/* Topic: Diffing Rules in Practice
+      BUG Not reset Show detail and likes because the state preserve across renders */}
+      {/* Just prop change -> diff rule -> same position, same element */}
+      {/* Want to reset state -> use key prop */}
       {activeTab <= 2 ? (
-        <TabContent item={content.at(activeTab)} />
+        <TabContent
+          item={content.at(activeTab)}
+          // Topic: Resetting State With the Key Prop
+          key={content.at(activeTab).summary}
+        />
       ) : (
         <DifferentContent />
       )}
+
+      {/* Topic: Instances and Elements in Practice 🐔 */}
+      {/* When we call the component directly, React will no longer sees it as a component instance. -> Show in hook instead of Tabbed component -> Always render inside the JSX (blueprint) 💥 */}
+      {/* {TabContent({ item: content.at(0) })} */}
     </div>
   );
 }
@@ -62,8 +86,46 @@ function TabContent({ item }) {
   const [showDetails, setShowDetails] = useState(true);
   const [likes, setLikes] = useState(0);
 
+  // current state === updated state -> NO RENDER
+  console.log("RENDER");
+
   function handleInc() {
-    setLikes(likes + 1);
+    // setLikes(likes + 1); // 🐛 Not secure
+    setLikes((likes) => likes + 1); // Secure
+  }
+
+  // Topic: State Update Batching in Practice
+  function handleTripleInc() {
+    // Stale State (Increase only 1 time, not 3)
+    // setLikes(likes + 1);
+    // console.log(likes); // 0
+    // setLikes(likes + 1);
+    // setLikes(likes + 1);
+
+    // Use callback func when we based on previous state
+    setLikes((likes) => likes + 1);
+    setLikes((likes) => likes + 1);
+    setLikes((likes) => likes + 1);
+
+    // 🐛
+    // handleInc();
+    // handleInc();
+    // handleInc();
+  }
+
+  function handleUndo() {
+    // These 2 states updates are batch.
+    // (Batch) Call one component when re-render
+    setShowDetails(true);
+    setLikes(0);
+    // State is updated after the re-rendering or during the re-rendering, but not immediately after we call this handler function.
+    // Solve this by using callback func
+    console.log(likes); // Ex get 5 not 0
+  }
+
+  function handleUndoLater() {
+    // No batching in handleUndo before React 18
+    setTimeout(handleUndo, 5000);
   }
 
   return (
@@ -79,13 +141,13 @@ function TabContent({ item }) {
         <div className="hearts-counter">
           <span>{likes} ❤️</span>
           <button onClick={handleInc}>+</button>
-          <button>+++</button>
+          <button onClick={handleTripleInc}>+++</button>
         </div>
       </div>
 
       <div className="tab-undo">
-        <button>Undo</button>
-        <button>Undo in 2s</button>
+        <button onClick={handleUndo}>Undo</button>
+        <button onClick={handleUndoLater}>Undo in 2s</button>
       </div>
     </div>
   );
@@ -98,3 +160,33 @@ function DifferentContent() {
     </div>
   );
 }
+
+// Topic: Components, Instances, and Elements
+// In slide
+
+// Topic: How Rendering Works: Overview
+// In slide
+
+// Topic: How Rendering Works: The Render Phase
+// In slide
+
+// Topic: How Rendering Works: The Commit Phase
+// In slide
+
+// Topic: How Diffing Works
+// In slide
+
+// Topic: Using the Key Prop to Fix Our Eat-'N-Split App
+// In Eat-'N-Split App project
+
+// Topic: Rules for Render Logic: Pure Components
+// In slide
+
+// Topic: State Update Batching
+// In slide
+
+// Topic: How Events Work in React
+// In slide
+
+// Topic: Libraries vs. Frameworks & The React Ecosystem
+// In slide
