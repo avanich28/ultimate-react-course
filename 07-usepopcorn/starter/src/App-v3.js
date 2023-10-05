@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import StarRating from "./StarRating";
-import { useMovies } from "./useMovies";
-import { useLocalStorageState } from "./useLocalStorageState";
-import { useKey } from "./useKey";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -11,24 +8,18 @@ const KEY = "83e64d8b";
 
 export default function App() {
   const [query, setQuery] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-  // 🍿 Call custom hook
-  const { movies, isLoading, error } = useMovies(query);
-  // const { movies, isLoading, error } = useMovies(query, handleCloseMovie);
-  // IMPT In JS, function declarations are hoisted, so we can use it before it declares while arrow func isn't hoisted.
-
-  // 🎒 get from useLocalStorageState.js file
-  const [watched, setWatched] = useLocalStorageState([], "watched");
 
   // 😛 Get data from localStorage
   // useState can receive only 'pure function' and 'no argument'!
   // const [watched, setWatched] = useState([]);
-  /* Move to useLocalStorageState.js 🎒
   const [watched, setWatched] = useState(function () {
     const storedValue = localStorage.getItem("watched");
     return storedValue ? JSON.parse(storedValue) : [];
   });
-  */
   // IMPT Should not 'call' function inside useState, but need to pass func!!!
   // useState(localStorage.getItem("watched"))
 
@@ -53,9 +44,60 @@ export default function App() {
   }
 
   // 😛
-  // Move localStorage.setItem to useLocalStorageState.js 🎒
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watched));
+    },
+    [watched]
+  );
 
-  // Move the useEffect of fetching movie to useMovies.js 🍿
+  useEffect(
+    function () {
+      const controller = new AbortController();
+
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+            { signal: controller.signal }
+          );
+
+          if (!res.ok)
+            throw new Error("Something went wrong with fetching movies");
+
+          const data = await res.json();
+          if (data.Response === "False") throw new Error("Movie not found");
+
+          setMovies(data.Search);
+          setError("");
+        } catch (err) {
+          if (err.name !== "AbortError") {
+            console.log(err.message);
+            setError(err.message);
+          }
+        } finally {
+          setIsLoading(false);
+        }
+      }
+
+      if (query.length < 3) {
+        setMovies([]);
+        setError("");
+        return;
+      }
+
+      handleCloseMovie();
+      fetchMovies();
+
+      return function () {
+        controller.abort();
+      };
+    },
+    [query]
+  );
 
   return (
     <>
@@ -133,19 +175,31 @@ function Search({ query, setQuery }) {
   const inputEl = useRef(null);
 
   // 3. UseEffect hook 🐔
-  // Move the useEffect of keydown Enter to useKey.js 🤪
   // Ref are for data that is NOT rendered
   // Appear only in event handlers or effects
-  useKey("Enter", function () {
-    // Prevent delete query for searching
-    if (document.activeElement === inputEl.current) return;
-    // This is DOM element
-    inputEl.current.focus();
-    setQuery("");
-  });
+  useEffect(
+    function () {
+      function callback(e) {
+        // Prevent delete query for searching
+        if (document.activeElement === inputEl.current) return;
+
+        if (e.code === "Enter") {
+          // This is DOM element
+          inputEl.current.focus();
+          setQuery("");
+        }
+      }
+      console.log("hello"); // Not execute when re-render because setQuery is the same
+
+      document.addEventListener("keydown", callback);
+
+      return () => document.removeEventListener("keydown", callback);
+    },
+    [setQuery] // Always fill dependency
+  );
 
   // Topic: How NOT to select DOM elements in React
-  // React is declarative, so selecting the DOM  this is not the React way. -> use concept of ref instead!
+  // React is declarative, so selecting the DOM like is not the React way. -> use concept of ref instead!
   // useEffect(function () {
   //   const el = document.querySelector(".search");
   //   console.log(el);
@@ -309,7 +363,23 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   }
 
   // Move the useEffect of keydown esc to useKey.js 🤪
-  useKey("Escape", onCloseMovie);
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovie();
+          // console.log("CLOSING");
+        }
+      }
+
+      document.addEventListener("keydown", callback);
+
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [onCloseMovie]
+  );
 
   useEffect(
     function () {
