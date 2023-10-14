@@ -28,7 +28,7 @@ export default function App() {
 // 🐔 Can look at a component instance simply by using the component and logging it to the console.
 // Return 'React element" {} -> use for creating DOM element
 console.log(<DifferentContent test={23} />); // Call internally
-console.log(DifferentContent()); // Don't do this bcs no longer has the type of different content.
+console.log(DifferentContent()); // Don't do this bcs no longer has the type of different content. (type: 'div')
 // Instead, it is a div which is basically just the content of that component. So, this div is now the type of this React element. -> React isn't see component instance, but see the raw React element
 
 // NOTE $$typeof: Symbol(react.element)
@@ -46,14 +46,15 @@ function Tabbed({ content }) {
         <Tab num={1} activeTab={activeTab} onClick={setActiveTab} />
         <Tab num={2} activeTab={activeTab} onClick={setActiveTab} />
 
-        {/* Reset state -> diff rule -> same position, different element */}
+        {/* Reset state -> diff rule: same position, different element */}
         <Tab num={3} activeTab={activeTab} onClick={setActiveTab} />
       </div>
 
       {/* Topic: Diffing Rules in Practice
       BUG Not reset Show detail and likes because the state preserve across renders */}
-      {/* Just prop change -> diff rule -> same position, same element */}
+      {/* Just prop change -> diff rule: same position, same element */}
       {/* Want to reset state -> use key prop */}
+
       {activeTab <= 2 ? (
         <TabContent
           item={content.at(activeTab)}
