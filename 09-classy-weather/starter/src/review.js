@@ -57,7 +57,8 @@ export default function App() {
   useEffect(
     function () {
       async function fetchWeather() {
-        if (query.length < 2) return setState({ ...state, weather: {} });
+        if (query.length < 2)
+          return setState((obj) => ({ ...obj, weather: {} }));
 
         try {
           setState((obj) => ({ ...obj, isLoading: true }));
