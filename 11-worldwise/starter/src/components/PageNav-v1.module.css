@@ -1,0 +1,25 @@
+/* Topic: Using CSS Modules */
+
+/* Never use normal element bcs we want this css to style only nav bar */
+/* ul {
+  list-style: none;
+} */
+
+.nav {
+  background-color: orangered;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Not work when className="active" from NavBar -> need to put global() */
+.nav :global(.active) {
+  background-color: green;
+}
+
+/* :global(.test) {
+  background-color: red;
+} */

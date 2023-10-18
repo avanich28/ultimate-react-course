@@ -25,6 +25,7 @@
   color: var(--color-brand--2);
 }
 
+/* Always use Kebub case style, not cta-link */
 a.ctaLink:link,
 a.ctaLink:visited {
   background-color: var(--color-brand--2);
