@@ -1,16 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./User.module.css";
-
-const FAKE_USER = {
-  name: "Jack",
-  email: "jack@example.com",
-  password: "qwerty",
-  avatar: "https://i.pravatar.cc/100?u=zz",
-};
+import { useAuth } from "../contexts/fakeAuthContext";
 
 function User() {
-  const user = FAKE_USER;
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  function handleClick() {}
+  function handleClick() {
+    logout();
+    navigate("/");
+  }
 
   return (
     <div className={styles.user}>
@@ -23,12 +22,13 @@ function User() {
 
 export default User;
 
+// Topic: Adding Fake Authentication: Implementing "Login"
 /*
 CHALLENGE
 
 1) Add `AuthProvider` to `App.jsx`
 2) In the `Login.jsx` page, call `login()` from context
-3) Inside an effect, check whether `isAuthenticated === true`. If so, programatically navigate to `/app`
+3) Inside an effect, check whether `isAuthenticated === true`. If so, programmatically navigate to `/app`
 4) In `User.js`, read and display logged in user from context (`user` object). Then include this component in `AppLayout.js`
 5) Handle logout button by calling `logout()` and navigating back to `/`
 */

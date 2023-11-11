@@ -4,7 +4,6 @@
 // Topic: Implementing Main Pages and Routes
 // npm i react-router-dom@6
 
-import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Product from "./pages/Product";
@@ -17,79 +16,66 @@ import CityList from "./components/CityList";
 import CountryList from "./components/CountryList";
 import City from "./components/City";
 import Form from "./components/Form";
-
-const BASE_URL = "http://localhost:8000";
+import { CitiesProvider } from "./contexts/CitiesContext";
+import { AuthProvider } from "./contexts/FakeAuthContext";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 function App() {
-  // Topic: Implementing the Cities List (2)
-  const [cities, setCities] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(function () {
-    async function fetchCities() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(`${BASE_URL}/cities`);
-        const data = await res.json();
-        setCities(data);
-      } catch (err) {
-        alert("There was an error loading data...");
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchCities();
-  }, []);
+  // Move state to CitiesContext.jsx 🌈
 
   return (
-    <div>
-      {/* Stay the same */}
-      {/* <h1>Hello Router!</h1> */}
+    <AuthProvider>
+      <CitiesProvider>
+        {/* Stay the same */}
+        {/* <h1>Hello Router!</h1> */}
 
-      {/* 2 ways for defining routes
+        {/* 2 ways for defining routes
        1. Declarative way */}
-      <BrowserRouter>
-        <Routes>
-          {/* Display when matches the route */}
-          <Route index element={<Homepage />} />
-          <Route path="product" element={<Product />} />
-          <Route path="pricing" element={<Pricing />} />
-          <Route path="login" element={<Login />} />
+        <BrowserRouter>
+          <Routes>
+            {/* Display when matches the route */}
+            <Route index element={<Homepage />} />
+            <Route path="product" element={<Product />} />
+            <Route path="pricing" element={<Pricing />} />
+            <Route path="login" element={<Login />} />
 
-          {/* Topic: Nested Routes and Index Route (1) 💥 */}
-          <Route path="app" element={<AppLayout />}>
-            {/* IMPT Index route is the default child route that is going to be matched if none of these other routes here matches. -> <Outlet /> */}
-            {/* Topic: Programmatic Navigation with <Navigate /> */}
-            <Route index element={<Navigate replace to="cities" />} />
-            {/* index hit -> redirect to the 'cities' route -> (below route) */}
-            {/* 'replace' -> replace the current element in the history stack */}
-            {/* This is an declarative way while navigate function is an imperative way. */}
-
+            {/* Topic: Nested Routes and Index Route (1) 💥 */}
             <Route
-              path="cities"
-              element={<CityList cities={cities} isLoading={isLoading} />}
-            />
+              path="app"
+              element={
+                // 🐬 check the user currently log in or not
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
+              {/* IMPT Index route is the default child route that is going to be matched if none of these other routes here matches. -> <Outlet /> */}
+              {/* Topic: Programmatic Navigation with <Navigate /> */}
+              <Route index element={<Navigate replace to="cities" />} />
+              {/* index hit -> redirect to the 'cities' route -> (below route) */}
+              {/* 'replace' -> replace the current element in the history stack */}
+              {/* This is an declarative way while navigate function is an imperative way. */}
 
-            {/* Topic: Dynamic Routes with URL Parameters
+              <Route path="cities" element={<CityList />} />
+
+              {/* Topic: Dynamic Routes with URL Parameters
             3 steps 
             1) Create a new route 
             2) Link to that route 
             3) In that route, read the state from the URL 
             */}
-            <Route path="cities/:id" element={<City />} />
+              <Route path="cities/:id" element={<City />} />
 
-            <Route
-              path="countries"
-              element={<CountryList cities={cities} isLoading={isLoading} />}
-            />
-            <Route path="form" element={<Form />} />
-          </Route>
+              <Route path="countries" element={<CountryList />} />
+              <Route path="form" element={<Form />} />
+            </Route>
 
-          {/* The star will basically be matched if none of the other routes are matched or any URL are not matched by our routes. */}
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+            {/* The star will basically be matched if none of the other routes are matched or any URL are not matched by our routes. */}
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </CitiesProvider>
+    </AuthProvider>
   );
 }
 

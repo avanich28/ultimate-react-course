@@ -20,7 +20,7 @@ export default function Homepage() {
         </h2>
 
         {/* Topic: Building the Pages */}
-        <Link to="/app" className="cta">
+        <Link to="/login" className="cta">
           Start Tracking now
         </Link>
       </section>
