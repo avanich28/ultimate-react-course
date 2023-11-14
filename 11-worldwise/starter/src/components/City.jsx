@@ -31,7 +31,9 @@ function City() {
     function () {
       getCity(id);
     },
-    [id]
+    [id, getCity]
+    // BUG getCity will make infinite loop, so we need to memoize getCity.
+    // call getCities -> update value -> CitiesProvider re-render -> recreate getCities -> call getCities...
   );
 
   const { cityName, emoji, date, notes } = currentCity;

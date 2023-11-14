@@ -1,9 +1,9 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useReducer,
-  useState,
 } from "react";
 
 // Topic: Back to "WorldWise": Creating a CitiesContext 🌈
@@ -91,24 +91,28 @@ function CitiesProvider({ children }) {
   }, []);
 
   // 🍁
-  async function getCity(id) {
-    // Don't need to call API again
-    // id from url will be string
-    // console.log(id, currentCity.id)
-    if (Number(id) === currentCity.id) return;
+  // Topic: Back to the "WorldWise" App
+  const getCity = useCallback(
+    async function getCity(id) {
+      // Don't need to call API again
+      // id from url will be string
+      // console.log(id, currentCity.id)
+      if (Number(id) === currentCity.id) return;
 
-    dispatch({ type: "loading" });
-    try {
-      const res = await fetch(`${BASE_URL}/cities/${id}`);
-      const data = await res.json();
-      dispatch({ type: "city/loaded", payload: data });
-    } catch {
-      dispatch({
-        type: "rejected",
-        payload: "There was an error loading the city...",
-      });
-    }
-  }
+      dispatch({ type: "loading" });
+      try {
+        const res = await fetch(`${BASE_URL}/cities/${id}`);
+        const data = await res.json();
+        dispatch({ type: "city/loaded", payload: data });
+      } catch {
+        dispatch({
+          type: "rejected",
+          payload: "There was an error loading the city...",
+        });
+      }
+    },
+    [currentCity.id]
+  );
 
   // Topic: Creating a New City (2) 😇
   async function createCity(newCity) {

@@ -21,7 +21,7 @@ export default function App() {
   const [watched, setWatched] = useLocalStorageState([], "watched");
 
   // 😛 Get data from localStorage
-  // useState can receive only 'pure function' and 'no argument'!
+  // IMPT useState can receive only 'pure function' and 'no argument'!
   // const [watched, setWatched] = useState([]);
   /* Move to useLocalStorageState.js 🎒
   const [watched, setWatched] = useState(function () {
@@ -30,7 +30,7 @@ export default function App() {
   });
   */
   // IMPT Should not 'call' function inside useState, but need to pass func!!!
-  // useState(localStorage.getItem("watched"))
+  // useState(localStorage.getItem("watched")) // BUG
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));

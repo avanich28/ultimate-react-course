@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 
 // Topic: Advanced Pattern: A Custom Provider and Hook 🍀
@@ -38,16 +38,32 @@ function PostProvider({ children }) {
     setPosts([]);
   }
 
+  // Topic: Optimizing Context Re-Renders (1)
+  // Optimize context when these 3 conditions are true at the same time
+  // 1) The state in the context needs to change all the time.
+  // 2) The context has many consumers
+  // 3) The app is actually slow and lag.
+  const value = useMemo(() => {
+    return {
+      posts: searchedPosts,
+      onAddPost: handleAddPost,
+      onClearPosts: handleClearPosts,
+      searchQuery,
+      setSearchQuery,
+    };
+  }, [searchedPosts, searchQuery]);
+
   return (
     // 2) PROVIDE VALUE TO CHILD COMPONENTS 🔥
     <PostContext.Provider
-      value={{
-        posts: searchedPosts,
-        onAddPost: handleAddPost,
-        onClearPosts: handleClearPosts,
-        searchQuery,
-        setSearchQuery,
-      }}
+      value={value}
+      // value={{
+      //   posts: searchedPosts,
+      //   onAddPost: handleAddPost,
+      //   onClearPosts: handleClearPosts,
+      //   searchQuery,
+      //   setSearchQuery,
+      // }}
     >
       {children}
     </PostContext.Provider>

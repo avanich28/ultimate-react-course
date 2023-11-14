@@ -14,13 +14,38 @@ function SlowComponent() {
   );
 }
 
-export default function Test() {
+// Topic: A Surprising Optimization Trick With children (2)
+function Counter({ children }) {
   const [count, setCount] = useState(0);
   return (
     <div>
       <h1>Slow counter?!?</h1>
       <button onClick={() => setCount((c) => c + 1)}>Increase: {count}</button>
-      <SlowComponent />
+      {/* Use children instead of <SlowComponent /> */}
+      {/* NOTE React no longer re-rendering the component bcs the SlowComponent is already created before the Counter component re-rendered */}
+      {children}
+    </div>
+  );
+}
+
+export default function Test() {
+  // const [count, setCount] = useState(0);
+  // return (
+  //   <div>
+  //     <h1>Slow counter?!?</h1>
+  //     <button onClick={() => setCount((c) => c + 1)}>Increase: {count}</button>
+  //     {/* NOTE Re-render bcs it is inside the Test component */}
+  //     <SlowComponent />
+  //   </div>
+  // );
+
+  return (
+    <div>
+      <h1>Slow Component</h1>
+      <Counter>
+        {/* SlowComponent has already created before and pass as a prop into the Counter. So it can't be affected by that state update (in Counter) */}
+        <SlowComponent />
+      </Counter>
     </div>
   );
 }
