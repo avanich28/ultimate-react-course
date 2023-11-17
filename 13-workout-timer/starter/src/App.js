@@ -3,7 +3,7 @@ import Calculator from "./Calculator";
 import ToggleSounds from "./ToggleSounds";
 
 // Topic: Challenge #1: Fix Performance Issues in "Workout Timer" 💥
-// Don't have any reactive value -> put the function outside.
+// Don't have any reactive value -> put the function outside the component.
 function formatTime(date) {
   return new Intl.DateTimeFormat("en", {
     month: "short",
@@ -44,7 +44,7 @@ function App() {
         numExercises: partOfDay === "AM" ? 5 : 4,
       },
     ];
-  }, [partOfDay]); // reactive value 💥
+  }, [partOfDay]); // -> reactive value 💥
 
   useEffect(function () {
     const id = setInterval(function () {

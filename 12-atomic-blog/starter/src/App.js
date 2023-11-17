@@ -50,7 +50,7 @@ function App() {
 
 function Header() {
   // Topic: Consuming the Context 🦊
-  // 3) CONSUMING CONTEXT VALUE
+  // 3) CONSUMING CONTEXT VALUE 🔥
   const { onClearPosts } = usePosts(); // 🍀
 
   return (

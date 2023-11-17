@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function SlowComponent() {
-  // If this is too slow on your maching, reduce the `length`
+  // If this is too slow on your matching, reduce the `length`
   const words = Array.from({ length: 100_000 }, () => "WORD");
   return (
     <ul>
@@ -21,7 +21,7 @@ function Counter({ children }) {
     <div>
       <h1>Slow counter?!?</h1>
       <button onClick={() => setCount((c) => c + 1)}>Increase: {count}</button>
-      {/* Use children instead of <SlowComponent /> */}
+      {/* NOTE Use children instead of <SlowComponent /> */}
       {/* NOTE React no longer re-rendering the component bcs the SlowComponent is already created before the Counter component re-rendered */}
       {children}
     </div>
@@ -34,7 +34,7 @@ export default function Test() {
   //   <div>
   //     <h1>Slow counter?!?</h1>
   //     <button onClick={() => setCount((c) => c + 1)}>Increase: {count}</button>
-  //     {/* NOTE Re-render bcs it is inside the Test component */}
+  //     {/* NOTE NOT OPTIMIZE -> Re-render bcs it is inside the Test component */}
   //     <SlowComponent />
   //   </div>
   // );
@@ -43,7 +43,7 @@ export default function Test() {
     <div>
       <h1>Slow Component</h1>
       <Counter>
-        {/* SlowComponent has already created before and pass as a prop into the Counter. So it can't be affected by that state update (in Counter) */}
+        {/* NOTE SlowComponent has already created before and pass as a prop into the Counter. So it can't be affected by that state update (in Counter) */}
         <SlowComponent />
       </Counter>
     </div>

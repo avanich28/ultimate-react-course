@@ -27,11 +27,11 @@ function App() {
         )
       : posts;
 
-  // Topic:  useCallback in Practice
+  // Topic: useCallback in Practice
   // store only function
   const handleAddPost = useCallback(function handleAddPost(post) {
-    setPosts((posts) => [post, ...posts]); // Don't need to put dependency array
-    // console.log(post) // need to put dependency array
+    setPosts((posts) => [post, ...posts]); // Don't need to put 'setter function' in dependency array
+    // console.log(post) // need to put 'post' value in dependency array
   }, []);
 
   function handleClearPosts() {

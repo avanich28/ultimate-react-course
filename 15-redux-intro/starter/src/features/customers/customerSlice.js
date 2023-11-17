@@ -13,7 +13,7 @@ const customerSlice = createSlice({
   reducers: {
     createCustomer: {
       // prepare: function(fullName) {}
-      prepare(fullName, nationalID, createdAt) {
+      prepare(fullName, nationalID) {
         return {
           payload: {
             fullName,

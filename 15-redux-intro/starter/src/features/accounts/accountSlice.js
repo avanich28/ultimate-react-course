@@ -59,8 +59,8 @@ console.log(accountSlice);
 export const { withdraw, requestLoan, payLoan } = accountSlice.actions;
 
 // Topic: Back to Thunks
-// Redux knows that this is an action creator for reducer.
-// We didn't use the automatic action creator that has been created by createSlice.
+// NOTE Redux knows that this is an action creator for reducer.
+// In this action creator, we didn't use the automatic action creator that has been created by createSlice.
 export function deposit(amount, currency) {
   if (currency === "USD") return { type: "account/deposit", payload: amount };
 
@@ -112,7 +112,7 @@ export default function accountReducer(state = initialStateAccount, action) {
       return { ...state, isLoading: true }; // 😛
 
     default:
-      // In Redux, not throw error.
+      // NOTE In Redux, not throw error like context API.
       return state;
   }
 }

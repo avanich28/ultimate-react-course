@@ -71,6 +71,7 @@ function PostProvider({ children }) {
 }
 
 // Placing Provider Component
+// For 3) CONSUMING CONTEXT VALUE 🔥
 function usePosts() {
   const context = useContext(PostContext);
   if (context === undefined)
