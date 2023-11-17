@@ -117,6 +117,7 @@ function CitiesProvider({ children }) {
   // Topic: Creating a New City (2) 😇
   async function createCity(newCity) {
     dispatch({ type: "loading" });
+    console.log(newCity); // NOTE NO ID
     try {
       const res = await fetch(`${BASE_URL}/cities`, {
         // Send some data to an API (in cities.json file)
@@ -127,6 +128,7 @@ function CitiesProvider({ children }) {
         },
       });
       const data = await res.json();
+      console.log(data); // NOTE GET ID
 
       dispatch({ type: "city/created", payload: data });
     } catch {

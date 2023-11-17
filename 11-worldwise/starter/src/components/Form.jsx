@@ -39,6 +39,7 @@ function Form() {
   const [geocodingError, setGeocodingError] = useState("");
 
   console.log(lat, lng);
+
   // 🍊
   useEffect(
     function () {
@@ -78,7 +79,7 @@ function Form() {
     [lat, lng]
   );
 
-  console.log("I"); // I II I I I
+  console.log("I"); // I II I  I I
 
   // 😇
   async function handleSubmit(e) {
