@@ -1,6 +1,6 @@
-import { useLoaderData } from "react-router-dom";
-import { getMenu } from "../../services/apiRestaurant";
-import MenuItem from "./MenuItem";
+import { useLoaderData } from 'react-router-dom';
+import { getMenu } from '../../services/apiRestaurant';
+import MenuItem from './MenuItem';
 
 // Topic: Fetching Data With React Router "Loaders": Pizza Menu (2) -> 3 steps
 function Menu() {
@@ -9,7 +9,8 @@ function Menu() {
   console.log(menu);
 
   return (
-    <ul>
+    // Topic: Styling the Menu
+    <ul className="divide-y divide-stone-200 px-2">
       {menu.map((pizza) => (
         <MenuItem pizza={pizza} key={pizza.id} />
       ))}

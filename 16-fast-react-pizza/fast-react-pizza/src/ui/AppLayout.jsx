@@ -1,7 +1,7 @@
-import { Outlet, useNavigation } from "react-router-dom";
-import Header from "./Header";
-import CartOverview from "../features/cart/CartOverview";
-import Loader from "./Loader";
+import { Outlet, useNavigation } from 'react-router-dom';
+import Header from './Header';
+import CartOverview from '../features/cart/CartOverview';
+import Loader from './Loader';
 
 // Topic: Building the App Layout (1)
 function AppLayout() {
@@ -12,18 +12,21 @@ function AppLayout() {
   // console.log(navigation);
   // Loading (loader: menuLoader) -> state: 'loading'
   // Finish loading -> state: 'idle
-  const isLoading = navigation.state === "loading";
+  const isLoading = navigation.state === 'loading';
 
   return (
-    <div className="layout">
+    // Topic: Using CSS Grid
+    <div className="grid h-screen grid-rows-[auto_1fr_auto]">
       {isLoading && <Loader />}
 
       <Header />
 
-      <main>
-        {/* For calling child route */}
-        <Outlet />
-      </main>
+      <div className="overflow-scroll">
+        <main className="mx-auto max-w-3xl">
+          {/* For calling child route */}
+          <Outlet />
+        </main>
+      </div>
 
       <CartOverview />
     </div>

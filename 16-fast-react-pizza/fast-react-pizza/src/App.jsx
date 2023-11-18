@@ -1,13 +1,13 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Home from "./ui/Home";
-import Error from "./ui/Error";
-import Menu, { loader as menuLoader } from "./features/menu/Menu";
-import Cart from "./features/cart/Cart";
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Home from './ui/Home';
+import Error from './ui/Error';
+import Menu, { loader as menuLoader } from './features/menu/Menu';
+import Cart from './features/cart/Cart';
 import CreateOrder, {
   action as createOrderAction,
-} from "./features/order/CreateOrder";
-import Order, { loader as orderLoader } from "./features/order/Order";
-import AppLayout from "./ui/AppLayout";
+} from './features/order/CreateOrder';
+import Order, { loader as orderLoader } from './features/order/Order';
+import AppLayout from './ui/AppLayout';
 
 // Topic: A New Way of Implementing Routes
 // NOTE npm i react-router-dom@6
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     // Call child route by using <Outlet />
     children: [
       {
-        path: "/",
+        path: '/',
         element: <Home />,
       },
       // Topic: Fetching Data With React Router "Loaders": Pizza Menu (1)
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
       // 2) Provide the loader
       // 3) Provide the data to the page
       {
-        path: "/menu",
+        path: '/menu',
         // If there are error when loading menu, we can render <Error />
         // Error will bubble up to the parent route.
         element: <Menu />,
@@ -46,17 +46,17 @@ const router = createBrowserRouter([
         errorElement: <Error />, // ⛔️ error pop up within the layout
       },
       {
-        path: "/cart",
+        path: '/cart',
         element: <Cart />,
       },
       {
-        path: "/order/new", // connect url with the action
+        path: '/order/new', // connect url with the action
         element: <CreateOrder />,
         // Topic: Writing Data With React Router "Actions" (2) 🍔
         action: createOrderAction, // use with <Form />
       },
       {
-        path: "/order/:orderId",
+        path: '/order/:orderId',
         element: <Order />,
         // Topic: Fetching Orders (4)
         loader: orderLoader,
@@ -80,3 +80,22 @@ export default App;
 
 // Topic: Setting Up a Professional File Structure
 // In Udemy notes
+
+////////////////////////
+
+// Topic: What is Tailwind CSS?
+// In slide
+
+// Topic: Setting Up Tailwind CSS
+// (use version 3)
+// https://tailwindcss.com/docs/guides/vite
+// npm install -D tailwindcss@3 postcss autoprefixer
+// npx tailwindcss init -p
+
+// setup tailwind.config.js and prettier.config.cjs
+// add in index.css
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+
+// https://tailwindcss.com/docs/customizing-colors
