@@ -7,6 +7,7 @@ import CreateOrder, {
   action as createOrderAction,
 } from './features/order/CreateOrder';
 import Order, { loader as orderLoader } from './features/order/Order';
+import { action as updateOrderAction } from './features/order/UpdateOrder';
 import AppLayout from './ui/AppLayout';
 
 // Topic: A New Way of Implementing Routes
@@ -61,6 +62,8 @@ const router = createBrowserRouter([
         // Topic: Fetching Orders (4)
         loader: orderLoader,
         errorElement: <Error />,
+        // // Topic: Updating Data Without Navigation (3)
+        action: updateOrderAction,
       },
     ],
   },

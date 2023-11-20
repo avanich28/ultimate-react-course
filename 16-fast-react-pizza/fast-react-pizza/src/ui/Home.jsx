@@ -1,6 +1,12 @@
+import { useSelector } from 'react-redux';
 import CreateUser from '../features/user/CreateUser';
+import Button from './Button';
 
 function Home() {
+  // Topic: Reading and Updating the User State (2)
+  // (3) in Cart.jsx
+  const username = useSelector((state) => state.user.username);
+
   return (
     // Topic: Responsive Design
     // @media (min-width: 64opx) {...}
@@ -18,7 +24,13 @@ function Home() {
         </span>
       </h1>
 
-      <CreateUser />
+      {username === '' ? (
+        <CreateUser />
+      ) : (
+        <Button to="/menu" type="primary">
+          Continue ordering, {username}
+        </Button>
+      )}
     </div>
   );
 }
