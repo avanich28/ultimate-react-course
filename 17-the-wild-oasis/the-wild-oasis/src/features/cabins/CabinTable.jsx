@@ -4,6 +4,7 @@ import { useCabins } from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
+import Empty from "../../ui/Empty";
 
 // NOTE Use from Table.jsx instead!
 // const Table = styled.div`
@@ -31,11 +32,12 @@ import { useSearchParams } from "react-router-dom";
 // `;
 
 function CabinTable() {
-  const { isLoading, cabins, error } = useCabins();
+  const { isLoading, cabins } = useCabins();
   // Topic: Client-Side Filtering: Filtering Cabins (4)
   const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
+  if (!cabins.length) return <Empty resourceName="cabins" />;
 
   // 1) FILTER
   const filterValue = searchParams.get("discount") || "all";
@@ -49,10 +51,9 @@ function CabinTable() {
 
   // 2) SORT
   // Topic: Client-Side Sorting: Sorting Cabins (4)
-  const sortBy = searchParams.get("sortBy") || "startDate-asc";
+  const sortBy = searchParams.get("sortBy") || "name-asc";
   const [field, direction] = sortBy.split("-");
   const modifier = direction === "asc" ? 1 : -1;
-  console.log(filteredCabins);
   const sortedCabins = filteredCabins.sort((a, b) =>
     field === "name"
       ? a[field].localeCompare(b[field]) * modifier

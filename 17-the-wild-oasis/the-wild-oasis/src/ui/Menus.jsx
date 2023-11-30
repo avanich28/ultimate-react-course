@@ -90,12 +90,15 @@ function Toggle({ id }) {
   const { openId, close, open, setPosition } = useContext(MenusContext);
 
   function handleClick(e) {
+    // Topic: Final Touches + Fixing Bugs
+    e.stopPropagation();
+    console.log("click");
+
     const rect = e.target.closest("button").getBoundingClientRect();
     setPosition({
       x: window.innerWidth - rect.width - rect.x,
       y: rect.y + rect.height + 8,
     });
-    console.log(rect);
 
     openId === "" || openId !== id ? open(id) : close();
   }
@@ -109,7 +112,11 @@ function Toggle({ id }) {
 
 function List({ id, children }) {
   const { openId, position, close } = useContext(MenusContext);
-  const ref = useOutsideClick(close);
+  // const ref = useOutsideClick(close);
+  const ref = useOutsideClick(() => {
+    console.log("close from click outside");
+    close();
+  }, false); // BUG Need to listen bubbling phase
 
   if (openId !== id) return null;
 

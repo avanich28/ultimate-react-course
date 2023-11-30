@@ -41,11 +41,13 @@ const FilterButton = styled.button`
 // (4) in CabinTable.jsx
 function Filter({ filterField, options }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentFilter = searchParams.get(filterField || options.at(0).value);
+  const currentFilter = searchParams.get(filterField) || options.at(0).value;
 
   function handleClick(value) {
     // IMPT
     searchParams.set(filterField, value);
+    // Topic: Checking Out a Booking (+ Fixing a Small Bug)
+    if (searchParams.get("page")) searchParams.set("page", 1); // BUG
     setSearchParams(searchParams);
   }
 
@@ -55,7 +57,8 @@ function Filter({ filterField, options }) {
         <FilterButton
           key={option.value}
           onClick={() => handleClick(option.value)}
-          active={option.value === currentFilter}
+          // BUG
+          active={option.value === currentFilter ? "true" : undefined}
           disabled={option.value === currentFilter}
         >
           {option.label}
