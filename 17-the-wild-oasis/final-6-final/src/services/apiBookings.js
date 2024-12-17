@@ -97,6 +97,8 @@ export async function getStaysTodayActivity() {
   // (stay.status === 'unconfirmed' && isToday(new Date(stay.startDate))) ||
   // (stay.status === 'checked-in' && isToday(new Date(stay.endDate)))
 
+  console.log(data);
+
   if (error) {
     console.error(error);
     throw new Error("Bookings could not get loaded");

@@ -62,7 +62,7 @@ const router = createBrowserRouter([
         // Topic: Fetching Orders (4)
         loader: orderLoader,
         errorElement: <Error />,
-        // // Topic: Updating Data Without Navigation (3)
+        // Topic: Updating Data Without Navigation (3)
         action: updateOrderAction,
       },
     ],

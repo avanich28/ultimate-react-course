@@ -21,7 +21,7 @@ function UpdateOrder({ order }) {
 
 export default UpdateOrder;
 
-// NOTE Re-validation means that React Router knows that the data has changed as a result of this action. When there is sth happens, it will automatically re-fetch the data in the background and the re-render the page with that new data. That is was so helpful about this fetcher.Form> (update data without causing navigation)
+// NOTE Re-validation means that React Router knows that the data has changed as a result of this action. When there is sth happens, it will automatically re-fetch the data in the background and the re-render the page with that new data. That is was so helpful about this fetcher.Form (update data without causing navigation)
 export async function action({ request, params }) {
   const data = { priority: true };
   await updateOrder(params.orderId, data);
