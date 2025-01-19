@@ -1,6 +1,6 @@
 "use client"; // IMPT For using state
 
-import Logo from "@/starter/components/Logo";
+import Logo from "./Logo";
 import { useState } from "react";
 
 function TextExpander({ children }) {

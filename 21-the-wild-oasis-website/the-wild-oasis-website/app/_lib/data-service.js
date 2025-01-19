@@ -64,7 +64,7 @@ export async function getGuest(email) {
     .single();
 
   // For testing
-  await new Promise((res) => setTimeout(res, 2000));
+  // await new Promise((res) => setTimeout(res, 2000));
 
   // No error here! We handle the possibility of no guest in the sign in callback
   return data;
@@ -136,7 +136,7 @@ export async function getBookedDatesByCabinId(cabinId) {
 export async function getSettings() {
   const { data, error } = await supabase.from("settings").select("*").single();
 
-  await new Promise((res) => setTimeout(res, 5000));
+  // await new Promise((res) => setTimeout(res, 5000));
 
   if (error) {
     console.error(error);
@@ -166,12 +166,12 @@ export async function createGuest(newGuest) {
 
   if (error) {
     console.error(error);
-    throw new Error("Guest could not be created");
+    throw new Error("Guest could not be created"); // Show in Terminal
   }
 
   return data;
 }
-
+/*
 export async function createBooking(newBooking) {
   const { data, error } = await supabase
     .from("bookings")
@@ -186,13 +186,13 @@ export async function createBooking(newBooking) {
   }
 
   return data;
-}
+}*/
 
 /////////////
 // UPDATE
 
 // The updatedFields is an object which should ONLY contain the updated data
-export async function updateGuest(id, updatedFields) {
+/*export async function updateGuest(id, updatedFields) {
   const { data, error } = await supabase
     .from("guests")
     .update(updatedFields)
@@ -233,4 +233,4 @@ export async function deleteBooking(id) {
     throw new Error("Booking could not be deleted");
   }
   return data;
-}
+}*/
