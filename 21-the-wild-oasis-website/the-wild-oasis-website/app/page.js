@@ -25,7 +25,7 @@ export default function Home() {
         {/* 1) Hard reload */}
         {/* <a href="/cabins">Explore luxury cabins</a> */}
 
-        {/* 2) Link in Next prefetch all routes that are linked on a certain page. */}
+        {/* 2) Link in Next.js prefetch all routes that are linked on a certain page. */}
         <Link
           href="/cabins"
           className="bg-accent-500 px-8 py-6 text-primary-800 text-lg font-semibold hover:bg-accent-600 transition-all"

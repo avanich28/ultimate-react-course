@@ -1,9 +1,9 @@
 // Topic: Connecting Supabase With Our React App
 import { createClient } from "@supabase/supabase-js";
 
-export const supabaseUrl = "https://sycmhowhjburigblhtbn.supabase.co";
+export const supabaseUrl = "https://wyvaelfsxsywibczrymk.supabase.co";
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5Y21ob3doamJ1cmlnYmxodGJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDA1NDk5NDEsImV4cCI6MjAxNjEyNTk0MX0.wBL5ztE9P43no_wetMVcwWfCpbVPXFCrfM8mEAJXZWs";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5dmFlbGZzeHN5d2liY3pyeW1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUwNDYyMTIsImV4cCI6MjA1MDYyMjIxMn0.lQxKBVFVPcK7bcwxQ07zOX5FL3_aAXeKHbDhaHcE9Ag";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default supabase;

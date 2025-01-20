@@ -2,7 +2,7 @@
 
 import Counter from "@/app/_components/Counter";
 
-// Settings > custom label > **/app/**/page.js > Page: ${dirname} */
+// VScode: Settings > custom label > **/app/**/page.js > Page: ${dirname} */
 // NOTE Not allow react hook in this server component
 async function Page() {
   // Topic: Fetching Data in a Page

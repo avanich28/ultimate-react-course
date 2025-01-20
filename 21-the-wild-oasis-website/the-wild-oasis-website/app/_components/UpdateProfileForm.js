@@ -66,7 +66,7 @@ function UpdateProfileForm({ guest, children }) {
       </div>
 
       <div className="flex justify-end items-center gap-6">
-        {/* IMPT When using useFormStatus hook, it need to be render inside the form */}
+        {/* IMPT When using useFormStatus hook, the component need to be render inside the form */}
         <SubmitButton pendingLabel="Updating...">Update profile</SubmitButton>
       </div>
     </form>
@@ -74,7 +74,7 @@ function UpdateProfileForm({ guest, children }) {
 }
 
 // Topic: Displaying a Loading Indicator: The useFormStatus Hook
-// IMPT Need to be render inside the form
+// IMPT Need to be render inside the form + Separate
 // This useFormStatus hook always needs to be inside client component
 // function Button() {
 //   const { pending } = useFormStatus();

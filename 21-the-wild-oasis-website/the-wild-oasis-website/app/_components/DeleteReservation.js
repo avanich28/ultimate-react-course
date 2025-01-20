@@ -1,5 +1,5 @@
 // Topic: Deleting a Reservation
-"use client"; // NOTE
+"use client"; // NOTE onClick needs JS, so this code needs to be run on client. That's why, we cannot declare server action.
 
 import { TrashIcon } from "@heroicons/react/24/solid";
 import { useTransition } from "react";

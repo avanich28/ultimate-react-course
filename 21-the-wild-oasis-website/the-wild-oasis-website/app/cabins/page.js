@@ -11,7 +11,7 @@ import ReservationReminder from "../_components/ReservationReminder";
 // NOTE Force route to be dynamic
 // No variable and math ex. const test = 30, 12*3
 // export const revalidate = 0 // Data always be revalidated
-export const revalidate = 3600; // second value only
+export const revalidate = 3600; // second unit only
 // export const revalidate = 15; // test
 
 // Topic: Adding Page Metadata and Favicon
@@ -28,7 +28,7 @@ export default function Page({ searchParams }) {
   // console.log(cabins);
 
   // Topic: Sharing State Between Client and Server: The URL
-  // NOTE Use searchParams -> This page can no longer be statically rendered, it will be dynamically rendered. So, there is no need to revalidate a page
+  // NOTE Use searchParams -> This page can no longer be statically rendered, it will be dynamically rendered. So, there is no need to 'revalidate' a page
   // console.log(searchParams);
   const filter = searchParams?.capacity ?? "all";
 

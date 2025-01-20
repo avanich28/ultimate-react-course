@@ -33,7 +33,7 @@ export async function updateGuest(formData) {
   // NOTE There are 2 types to revalidate the cache
   // 1. time-based revalidation
   // 2. manual on-demand validation
-  revalidatePath("/account/profile");
+  revalidatePath("/account/profile"); // manual
 }
 
 // Topic: Creating a New Reservation
